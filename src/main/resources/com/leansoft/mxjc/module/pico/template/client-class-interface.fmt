@@ -64,21 +64,21 @@
  [/#if]
 */
 
-@property (nonatomic, retain) NSMutableArray *${field.name};
+@property (nonatomic, strong) NSMutableArray *${field.name};
 [#elseif field.type.enum]
 /**
  ${field.docComment?default("(public property)")?replace("\n", "\n ")?replace("\t", "")}
  
  type: string constant in ${field.type.fullName}.h
 */
-@property (nonatomic, retain) NSString *${field.name};
+@property (nonatomic, strong) NSString *${field.name};
 [#elseif field.any]
 /**
  ${field.docComment?default("(public property)")?replace("\n", "\n ")?replace("\t", "")}
  
  entry type : ${field.type.fullName}, wrapper for primitive ${getPrimitiveTypeName(field.type.name)}
 */
-@property (nonatomic, retain) NSMutableArray *${field.name};
+@property (nonatomic, strong) NSMutableArray *${field.name};
 [#else]
 /**
  ${field.docComment?default("(public property)")?replace("\n", "\n ")?replace("\t", "")}
@@ -89,7 +89,7 @@
  type : class ${field.type.fullName}
  [/#if]
 */
-@property (nonatomic, retain) ${field.type.fullName} *${field.name};
+@property (nonatomic, strong) ${field.type.fullName} *${field.name};
 [/#if]
 
 [/#list]

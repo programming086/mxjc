@@ -21,7 +21,6 @@
 +(PicoClassSchema *)getClassMetaData {
 [#if clazz.rootElementAnnotation?? && clazz.rootElementAnnotation.parameterProvided]
     PicoClassSchema *cs = [[PicoClassSchema alloc] initWithXmlName:@"${clazz.rootElementAnnotation.name}" nsUri:@"${clazz.rootElementAnnotation.namespace}"];
-    [cs autorelease];
     return cs;
 [#else]
     return nil;
@@ -48,8 +47,7 @@
 	  [/#if]
     ps = [[PicoPropertySchema alloc] initWithKind:PICO_KIND_ATTRIBUTE xmlName:@"${xmlName}" propertyName:@"${field.name}" type:${field.type.name} clazz:[#if !field.type.primitive][${field.type.fullName} class][#else]nil[/#if]];
     [map setObject:ps forKey:@"${field.name}"];
-    [ps release];
-	[#elseif field.element][#-- map to xml element --]
+ 	[#elseif field.element][#-- map to xml element --]
 	    [#if field.type.collection && (field.type.typeParameters)?? && field.type.typeParameters?size > 0]
 		    [#assign type = field.type.typeParameters?first]
 	        [#if !flag]
@@ -58,16 +56,14 @@
 	        [/#if]
     ps = [[PicoPropertySchema alloc] initWithKind:PICO_KIND_ELEMENT_ARRAY xmlName:@"${xmlName}" propertyName:@"${field.name}" type:${type.name} clazz:[#if !type.primitive][${type.fullName} class][#else]nil[/#if]];
     [map setObject:ps forKey:@"${field.name}"];
-    [ps release];
-	    [#else]
+ 	    [#else]
 	        [#if !flag]
 	            [#assign flag=true]
     PicoPropertySchema *ps = nil;
 	        [/#if]
     ps = [[PicoPropertySchema alloc] initWithKind:PICO_KIND_ELEMENT xmlName:@"${xmlName}" propertyName:@"${field.name}" type:${field.type.name} clazz:[#if !field.type.primitive][${field.type.fullName} class][#else]nil[/#if]];
     [map setObject:ps forKey:@"${field.name}"];
-    [ps release];
-	    [/#if]
+  	    [/#if]
 	[#elseif field.value][#-- map to xml value --]
 	    [#if !flag]
 	        [#assign flag=true]
@@ -75,8 +71,7 @@
 	    [/#if]
     ps = [[PicoPropertySchema alloc] initWithKind:PICO_KIND_VALUE xmlName:nil propertyName:@"${field.name}" type:${field.type.name} clazz:[#if !field.type.primitive][${field.type.fullName} class][#else]nil[/#if]];
     [map setObject:ps forKey:@"${field.name}"];
-    [ps release];
-    [#else][#-- map to xml any --]
+     [#else][#-- map to xml any --]
         [#if !flag]
 	       [#assign flag=true]
     PicoPropertySchema *ps = nil;
@@ -88,8 +83,7 @@
 	    [/#if]
     ps = [[PicoPropertySchema alloc] initWithKind:PICO_KIND_ANY_ELEMENT xmlName:@"${xmlName}" propertyName:@"${field.name}" type:${type.name} clazz:[#if !type.primitive][${type.fullName} class][#else]nil[/#if]];
     [map setObject:ps forKey:@"${field.name}"];
-    [ps release];
-	[/#if]                     
+ 	[/#if]                     
 [/#list]
     
     return map;
@@ -101,7 +95,6 @@
 [#list clazz.fields as field]
     self.${field.name} = nil;
 [/#list]
-    [super dealloc];
 }
 
 @end
